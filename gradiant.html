@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>study</title>
+    <style>
+        body {
+            font-family: "DM Serif Display", serif;
+            font-weight: 600; /* This makes the text bold */
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;;
+        }
+
+        header {
+            background-color: #714a9c;
+            text-align: center;
+            padding: 10px;
+            margin: 0;
+        }
+
+        header img {
+            max-width: 100px;
+            height: 100px;
+            border-radius: 10px;
+        }
+
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .subject-button {
+            text-align: center;
+            margin: 2%;
+            width: 29%;
+            cursor: pointer;
+            border: 2px solid #000000;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .subject-button:hover {
+            transform: scale(1.1);
+        }
+
+        .subject-button img {
+            display: block; /* Ensures the image is centered properly */
+            margin: 0 auto; /* Centers the image horizontally */
+            max-width: 190px;
+            height: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #60427d;
+            color: whit
+            e ;  
+      }
+
+      .custom-card {
+            width: auto;
+            height: auto;
+            cursor: pointer;
+            background: linear-gradient(180deg, rgb(249, 70, 100), orange, rgb(244, 43, 244));
+            transition: all 0.3s;
+        }
+
+        .custom-card .child-card {
+            width: auto;
+            height: auto;
+            background-color: #1a1a1a;
+            transition: all 0.3s;
+        }
+
+        .custom-card:hover {
+            border-radius: 20px;
+            box-shadow: 0px 0px 100px #18dde9;
+        }
+
+        .custom-card:hover .child-card {
+            transform: scale(0.95);
+            border-radius: 20px;
+        }
+
+    </style>
+<link rel="icon" href="C:\study\foxbg.png" type="image/png" sizes="16x16 62x62">
+
+</head>
+<body>
+
+   <header>
+        <div>
+            <img src="fox1.png" alt="Logo">
+        </div>
+        <p>Welcome to the new way of studying</p>
+    </header>
+
+    <main>
+        <div class="subject-button custom-card" onclick="navigate('physics')">
+            <div class="child-card">
+                <img src="physics.png" alt="Physics">
+                <p>Physics</p>
+            </div>
+        </div>
+
+        <div class="subject-button custom-card" onclick="navigate('chemistry')">
+            <div class="child-card">
+                <img src="Chemistry.png" alt="Chemistry">
+                <p>Chemistry</p>
+            </div>
+        </div>
+
+        <div class="subject-button custom-card" onclick="navigate('math')">
+            <div class="child-card">
+                <img src="Maths.png" alt="Math">
+                <p>Math</p>
+            </div>
+        </div>
+    </main>
+
+     <footer>
+        <p style="text-align: center;">Yash Vinchhi</p>
+        <div style="text-align: center;">
+            <a href="https://www.instagram.com/yeaas_vinchhi/" target="_blank">Instagram</a> |
+            <a href="https://www.linkedin.com/in/yash-h-vinchhi-25176b297/" target="_blank">LinkedIn</a> |
+            <a href="https://twitter.com/yashhvinchhi" target="_blank">Twitter</a>
+        </div>
+    </footer>
+
+    <script>
+        function navigate(subject) {
+            window.location.href = subject + '.html';
+        }
+    </script>
+
+</body>
+</html>1

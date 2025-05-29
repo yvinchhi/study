@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="fox.png" type="image/png">
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <a class="sidebar-link" href="study.html" title="Home"><span>🏠</span><span class="sidebar-label">Home</span></a>
+    </nav>
+    <header>
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
+        <div><img src="fox.png" alt="Logo"></div>
+        <p id="subjectTitle">Subject</p>
+    </header>
+    <main>
+        <h1 id="mainHeading" style="text-align:center;font-weight:600;color:var(--text-main);margin-bottom:32px;">Welcome</h1>
+        <div class="button-container">
+            <div class="big-button"><span class="big-icon">📚</span><span id="contentText">Content Coming Soon!</span></div>
+        </div>
+    </main>
+    <footer>
+        <p>Yash Vinchhi</p>
+    </footer>
+    <script>
+        // Get subject name from URL
+        function getSubjectName() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('name') || 'Subject';
+        }
+        const subject = getSubjectName();
+        document.title = subject;
+        document.getElementById('subjectTitle').textContent = subject;
+        document.getElementById('mainHeading').textContent = `Welcome to ${subject}`;
+        document.getElementById('contentText').textContent = `${subject} Content Coming Soon!`;
+        // Dark mode toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            updateSidebarTheme();
+        });
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggle.textContent = '☀️';
+        }
+        // Sidebar dark mode sync
+        const sidebar = document.getElementById('sidebar');
+        function updateSidebarTheme() {
+            if(document.body.classList.contains('dark-mode')) {
+                sidebar.classList.add('dark-mode');
+            } else {
+                sidebar.classList.remove('dark-mode');
+            }
+        }
+        updateSidebarTheme();
+        document.getElementById('themeToggle').addEventListener('click', updateSidebarTheme);
+    </script>
+</body>
+</html>

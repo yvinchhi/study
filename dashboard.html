@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="fox.png" type="image/png">
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <a class="sidebar-link" href="study.html" title="Home">
+            <span>🏠</span>
+            <span class="sidebar-label">Home</span>
+        </a>
+        <a class="sidebar-link" href="physics.html" title="Physics">
+            <span>🧲</span>
+            <span class="sidebar-label">Physics</span>
+        </a>
+        <a class="sidebar-link" href="chemistry.html" title="Chemistry">
+            <span>⚗️</span>
+            <span class="sidebar-label">Chemistry</span>
+        </a>
+        <a class="sidebar-link" href="math.html" title="Math">
+            <span>➗</span>
+            <span class="sidebar-label">Math</span>
+        </a>
+    </nav>
+    <header>
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
+        <div>
+            <img src="fox.png" alt="Logo">
+        </div>
+        <p>Manage your subjects below</p>
+    </header>
+    <main>
+        <h1 style="text-align:center;font-weight:600;color:var(--text-main);margin-bottom:32px;">Dashboard</h1>
+        <div id="subjectManager" style="max-width: 600px; margin: 0 auto;">
+            <form id="addSubjectForm" style="display:flex;gap:12px;justify-content:center;margin-bottom:24px;">
+                <input type="text" id="newSubjectName" placeholder="New subject name" required style="flex:1;min-width:0;" class="search-bar">
+                <button type="submit" class="big-button" style="width:auto;height:auto;padding:0 24px;font-size:1.1rem;">Add</button>
+            </form>
+            <ul id="subjectList" style="list-style:none;padding:0;">
+                <!-- Subjects will be listed here -->
+            </ul>
+        </div>
+    </main>
+    <footer>
+        <p>Yash Vinchhi</p>
+        <div class="social">
+            <a href="https://www.instagram.com/yeaas_vinchhi/" target="_blank">
+                <img src="instagram.svg" alt="Instagram">
+            </a>
+            <a href="https://www.linkedin.com/in/yash-h-vinchhi-25176b297/" target="_blank">
+                <img src="linkedin.svg" alt="linkedin">
+            </a>
+            <a href="https://twitter.com/yashhvinchhi" target="_blank">
+                <img src="twitter.svg" alt="twitter">
+            </a>
+        </div>
+    </footer>
+    <script>
+        // Dark mode toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            updateSidebarTheme();
+        });
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggle.textContent = '☀️';
+        }
+        // Sidebar dark mode sync
+        const sidebar = document.getElementById('sidebar');
+        function updateSidebarTheme() {
+            if(document.body.classList.contains('dark-mode')) {
+                sidebar.classList.add('dark-mode');
+            } else {
+                sidebar.classList.remove('dark-mode');
+            }
+        }
+        updateSidebarTheme();
+        // Subject manager logic
+        const subjectList = document.getElementById('subjectList');
+        const addSubjectForm = document.getElementById('addSubjectForm');
+        const newSubjectName = document.getElementById('newSubjectName');
+        // Load subjects from localStorage
+        function loadSubjects() {
+            const subjects = JSON.parse(localStorage.getItem('customSubjects') || '[]');
+            subjectList.innerHTML = '';
+            subjects.forEach((subject, idx) => {
+                const li = document.createElement('li');
+                li.style.display = 'flex';
+                li.style.alignItems = 'center';
+                li.style.justifyContent = 'space-between';
+                li.style.background = 'var(--card-bg)';
+                li.style.borderRadius = '18px';
+                li.style.marginBottom = '12px';
+                li.style.padding = '12px 20px';
+                li.innerHTML = `<span style="font-size:1.1rem;">${subject}</span>
+                    <button style="background:var(--card-hover-bg);border:none;border-radius:12px;padding:6px 16px;cursor:pointer;font-size:1rem;" onclick="removeSubject(${idx})">Remove</button>`;
+                subjectList.appendChild(li);
+            });
+        }
+        // Add subject
+        addSubjectForm.onsubmit = function(e) {
+            e.preventDefault();
+            const subjects = JSON.parse(localStorage.getItem('customSubjects') || '[]');
+            const name = newSubjectName.value.trim();
+            if(name && !subjects.includes(name)) {
+                subjects.push(name);
+                localStorage.setItem('customSubjects', JSON.stringify(subjects));
+                loadSubjects();
+                newSubjectName.value = '';
+            }
+        };
+        // Remove subject
+        window.removeSubject = function(idx) {
+            const subjects = JSON.parse(localStorage.getItem('customSubjects') || '[]');
+            subjects.splice(idx, 1);
+            localStorage.setItem('customSubjects', JSON.stringify(subjects));
+            loadSubjects();
+        };
+        loadSubjects();
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Section</title>
+    <link rel="stylesheet" href="styles.css">
+<link rel="icon" href="E:\study\fox.png" type="image/png" sizes="16x16 62x62">
+</head>
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <a class="sidebar-link" href="study.html" title="Home">
+            <span>🏠</span>
+            <span class="sidebar-label">Home</span>
+        </a>
+        <a class="sidebar-link" href="physics.html" title="Physics">
+            <span>🧲</span>
+            <span class="sidebar-label">Physics</span>
+        </a>
+        <a class="sidebar-link" href="chemistry.html" title="Chemistry">
+            <span>⚗️</span>
+            <span class="sidebar-label">Chemistry</span>
+        </a>
+        <a class="sidebar-link" href="math.html" title="Math">
+            <span>➗</span>
+            <span class="sidebar-label">Math</span>
+        </a>
+    </nav>
+    <header>
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
+        <div style="margin-bottom: 8px;">
+            <img src="fox.png" alt="Logo">
+        </div>
+        <p style="margin-bottom: 24px;">Welcome to the new way of studying</p>
+    </header>
+    <main>
+        <h1 style="text-align:center;font-weight:600;color:var(--text-main);margin-bottom:32px;">Physics Section</h1>
+        <div class="button-container" style="margin-bottom: 32px; display: flex; flex-wrap: wrap; justify-content: center; gap: 32px;">
+            <button class="big-button" onclick="navigate('physics textbook')">
+                <span class="big-icon">📚</span>
+                <span>Textbooks</span>
+            </button>
+            <button class="big-button" onclick="navigate('Physics solutions')">
+                <span class="big-icon">✅</span>
+                <span>Solutions</span>
+            </button>
+            <button class="big-button" onclick="navigate('physics Examples')">
+                <span class="big-icon">🔬</span>
+                <span>Examples</span>
+            </button>
+        </div>
+    </main>
+    <footer>
+        <p>Yash Vinchhi</p>
+        <div class="social">
+            <a href="https://www.instagram.com/yeaas_vinchhi/" target="_blank">
+                <img src="instagram.svg" alt="Instagram">
+            </a>
+            <a href="https://www.linkedin.com/in/yash-h-vinchhi-25176b297/" target="_blank">
+                <img src="linkedin.svg" alt="linkedin">
+            </a>
+            <a href="https://twitter.com/yashhvinchhi" target="_blank">
+                <img src="twitter.svg" alt="twitter">
+            </a>
+        </div>
+    </footer>
+    <script>
+        function navigate(section) {
+            window.location.href = section + '.html';
+        }
+        // Dark mode toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        });
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggle.textContent = '☀️';
+        }
+        // Sidebar dark mode sync
+        const sidebar = document.getElementById('sidebar');
+        function updateSidebarTheme() {
+            if(document.body.classList.contains('dark-mode')) {
+                sidebar.classList.add('dark-mode');
+            } else {
+                sidebar.classList.remove('dark-mode');
+            }
+        }
+        updateSidebarTheme();
+        document.getElementById('themeToggle').addEventListener('click', updateSidebarTheme);
+    </script>
+
+</body>
+</html>
