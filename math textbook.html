@@ -8,44 +8,116 @@
 <link rel="icon" href="E:\study\fox.png" type="image/png" sizes="16x16 62x62">
 </head>
 <body>
-
+    <nav class="sidebar" id="sidebar">
+        <!-- ...existing sidebar content... -->
+    </nav>
     <header>
-        <div>
-            <img src="fox.png" alt="Logo">
-        </div>
-        <p>Welcome to the new way of studying</p>
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
+        <h1 style="margin-top: 24px;">Math Textbook</h1>
     </header>
-
-    <main class="grid">
-        <a class="chapter-button" href="E:\study\maths\lemh101.pdf" target="_blank">📖 Chapter 1</a>
-        <a class="chapter-button" href="E:\study\maths\lemh102.pdf" target="_blank">📖 Chapter 2</a>
-        <a class="chapter-button" href="E:\study\maths\lemh103.pdf" target="_blank">📖 Chapter 3</a>
-        <a class="chapter-button" href="E:\study\maths\lemh104.pdf" target="_blank">📖 Chapter 4</a>
-        <a class="chapter-button" href="E:\study\maths\lemh105.pdf" target="_blank">📖 Chapter 5</a>
-        <a class="chapter-button" href="E:\study\maths\lemh106.pdf" target="_blank">📖 Chapter 6</a>
-        <a class="chapter-button" href="E:\study\maths\lemh107.pdf" target="_blank">📖 Chapter 7</a>
-        <a class="chapter-button" href="E:\study\maths\lemh108.pdf" target="_blank">📖 Chapter 8</a>
-        <a class="chapter-button" href="E:\study\maths\lemh109.pdf" target="_blank">📖 Chapter 9</a>
-	<a class="chapter-button" href="E:\study\maths\lemh1010.pdf" target="_blank">📖 Chapter 10</a>
-	<a class="chapter-button" href="E:\study\maths\lemh1011.pdf" target="_blank">📖 Chapter 11</a>
-	<a class="chapter-button" href="E:\study\maths\lemh1012.pdf" target="_blank">📖 Chapter 12</a>
-	<a class="chapter-button" href="E:\study\maths\lemh1013.pdf" target="_blank">📖 Chapter 13</a>
-	    
-</main>
-
-<footer class="grid">
-    <p style="text-align: center;">Yash Vinchhi</p>
-    <div class="social" style="text-align: center;">
-      <a href="https://www.instagram.com/yeaas_vinchhi/" target="_blank" style="text-decoration: none;">
-    <img src="instagram.svg" alt="Instagram" style="width: 50px; height: 50px;">
-</a>
-       <a href=https://www.linkedin.com/in/yash-h-vinchhi-25176b297/ target="_blank" style="text-decoration: none;">
-    <img src="linkedin.svg" alt="linkedin" style="width: 50px; height: 50px;">
-</a>
-         <a href="https://twitter.com/yashhvinchhi" target="_blank" style="text-decoration: none;">
-    <img src="twitter.svg" alt="twitter" style="width: 50px; height: 50px;">
-</a>
-    </div>
-</footer>
+    <main>
+        <div class="chapter-grid">
+            <a class="chapter-button" href="E:\study\maths\lemh101.pdf" target="_blank">📖 Chapter 1</a>
+            <a class="chapter-button" href="E:\study\maths\lemh102.pdf" target="_blank">📖 Chapter 2</a>
+            <a class="chapter-button" href="E:\study\maths\lemh103.pdf" target="_blank">📖 Chapter 3</a>
+            <a class="chapter-button" href="E:\study\maths\lemh104.pdf" target="_blank">📖 Chapter 4</a>
+            <a class="chapter-button" href="E:\study\maths\lemh105.pdf" target="_blank">📖 Chapter 5</a>
+            <a class="chapter-button" href="E:\study\maths\lemh106.pdf" target="_blank">📖 Chapter 6</a>
+            <a class="chapter-button" href="E:\study\maths\lemh107.pdf" target="_blank">📖 Chapter 7</a>
+            <a class="chapter-button" href="E:\study\maths\lemh108.pdf" target="_blank">📖 Chapter 8</a>
+            <a class="chapter-button" href="E:\study\maths\lemh109.pdf" target="_blank">📖 Chapter 9</a>
+            <a class="chapter-button" href="E:\study\maths\lemh1010.pdf" target="_blank">📖 Chapter 10</a>
+            <a class="chapter-button" href="E:\study\maths\lemh1011.pdf" target="_blank">📖 Chapter 11</a>
+            <a class="chapter-button" href="E:\study\maths\lemh1012.pdf" target="_blank">📖 Chapter 12</a>
+            <a class="chapter-button" href="E:\study\maths\lemh1013.pdf" target="_blank">📖 Chapter 13</a>
+        </div>
+    </main>
+    <footer>
+        <p style="text-align: center;">Yash Vinchhi</p>
+        <div class="social" style="text-align: center;">
+          <a href="https://www.instagram.com/yeaas_vinchhi/" target="_blank" style="text-decoration: none;">
+        <img src="instagram.svg" alt="Instagram" style="width: 50px; height: 50px;">
+    </a>
+           <a href=https://www.linkedin.com/in/yash-h-vinchhi-25176b297/ target="_blank" style="text-decoration: none;">
+        <img src="linkedin.svg" alt="linkedin" style="width: 50px; height: 50px;">
+    </a>
+             <a href="https://twitter.com/yashhvinchhi" target="_blank" style="text-decoration: none;">
+        <img src="twitter.svg" alt="twitter" style="width: 50px; height: 50px;">
+    </a>
+        </div>
+    </footer>
+    <script>
+        // Dark mode toggle
+        const themeToggle = document.getElementById('themeToggle');
+        function setDarkMode(on) {
+            document.body.classList.toggle('dark-mode', on);
+            themeToggle.textContent = on ? '☀️' : '🌙';
+            localStorage.setItem('darkMode', on ? '1' : '0');
+        }
+        themeToggle.onclick = () => setDarkMode(!document.body.classList.contains('dark-mode'));
+        if (localStorage.getItem('darkMode') === '1') setDarkMode(true);
+        // Sidebar dark mode
+        function updateSidebarDark() {
+            document.getElementById('sidebar').classList.toggle('dark-mode', document.body.classList.contains('dark-mode'));
+        }
+        updateSidebarDark();
+        themeToggle.addEventListener('click', updateSidebarDark);
+    </script>
+    <style>
+        .centered-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            text-align: center;
+            width: 100%;
+        }
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .textbook-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    justify-content: center;
+    align-items: start;
+    margin: 0 auto 48px auto;
+    max-width: 1100px;
+}
+@media (max-width: 1100px) {
+    .textbook-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 700px) {
+    .textbook-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.chapter-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    justify-content: center;
+    align-items: start;
+    width: 100%;
+    margin: 0 auto 48px auto;
+    max-width: 1100px;
+}
+@media (max-width: 1100px) {
+    .chapter-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 700px) {
+    .chapter-grid {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
 </body>
 </html>
