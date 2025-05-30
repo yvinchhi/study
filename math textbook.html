@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maths Textbooks</title>
     <link rel="stylesheet" href="styles.css">
-<link rel="icon" href="E:\study\fox.png" type="image/png" sizes="16x16 62x62">
+    <link rel="icon" href="fox.png" type="image/png">
 </head>
 <body>
     <nav class="sidebar" id="sidebar">
-        <!-- ...existing sidebar content... -->
+        <a class="sidebar-link" href="index.html" title="Home"><span>🏠</span><span class="sidebar-label">Home</span></a>
+        <a class="sidebar-link" href="physics.html" title="Physics"><span>🧲</span><span class="sidebar-label">Physics</span></a>
+        <a class="sidebar-link" href="chemistry.html" title="Chemistry"><span>⚗️</span><span class="sidebar-label">Chemistry</span></a>
+        <a class="sidebar-link" href="math.html" title="Math"><span>➗</span><span class="sidebar-label">Math</span></a>
+        <a class="sidebar-link" href="dashboard.html" title="Dashboard"><span>🛠️</span><span class="sidebar-label">Dashboard</span></a>
     </nav>
     <header>
         <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
@@ -38,7 +42,7 @@
           <a href="https://www.instagram.com/yeaas_vinchhi/" target="_blank" style="text-decoration: none;">
         <img src="instagram.svg" alt="Instagram" style="width: 50px; height: 50px;">
     </a>
-           <a href=https://www.linkedin.com/in/yash-h-vinchhi-25176b297/ target="_blank" style="text-decoration: none;">
+           <a href="https://www.linkedin.com/in/yash-h-vinchhi-25176b297/" target="_blank" style="text-decoration: none;">
         <img src="linkedin.svg" alt="linkedin" style="width: 50px; height: 50px;">
     </a>
              <a href="https://twitter.com/yashhvinchhi" target="_blank" style="text-decoration: none;">
@@ -47,21 +51,27 @@
         </div>
     </footer>
     <script>
-        // Dark mode toggle
+        // Global dark mode toggle with sync
         const themeToggle = document.getElementById('themeToggle');
         function setDarkMode(on) {
             document.body.classList.toggle('dark-mode', on);
             themeToggle.textContent = on ? '☀️' : '🌙';
-            localStorage.setItem('darkMode', on ? '1' : '0');
+            localStorage.setItem('theme', on ? 'dark' : 'light');
+            updateSidebarDark();
         }
         themeToggle.onclick = () => setDarkMode(!document.body.classList.contains('dark-mode'));
-        if (localStorage.getItem('darkMode') === '1') setDarkMode(true);
-        // Sidebar dark mode
         function updateSidebarDark() {
             document.getElementById('sidebar').classList.toggle('dark-mode', document.body.classList.contains('dark-mode'));
         }
-        updateSidebarDark();
-        themeToggle.addEventListener('click', updateSidebarDark);
+        // On load, set theme from localStorage
+        if (localStorage.getItem('theme') === 'dark') setDarkMode(true);
+        else setDarkMode(false);
+        // Listen for theme changes from other tabs
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'theme') {
+                setDarkMode(localStorage.getItem('theme') === 'dark');
+            }
+        });
     </script>
     <style>
         .centered-content {

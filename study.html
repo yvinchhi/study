@@ -72,22 +72,37 @@
         }
         // Dark mode toggle
         const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        function setDarkMode(on) {
+            document.body.classList.toggle('dark-mode', on);
+            themeToggle.textContent = on ? '☀️' : '🌙';
+            localStorage.setItem('theme', on ? 'dark' : 'light');
             updateSidebarTheme();
+        }
+        themeToggle.onclick = () => setDarkMode(!document.body.classList.contains('dark-mode'));
+        // On load, set theme from localStorage
+        if (localStorage.getItem('theme') === 'dark') setDarkMode(true);
+        else setDarkMode(false);
+        // Listen for theme changes from other tabs
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'theme') {
+                setDarkMode(localStorage.getItem('theme') === 'dark');
+            }
         });
+        // Sidebar dark mode sync
+        const sidebar = document.getElementById('sidebar');
+        function updateSidebarTheme() {
+            if(document.body.classList.contains('dark-mode')) {
+                sidebar.classList.add('dark-mode');
+            } else {
+                sidebar.classList.remove('dark-mode');
+            }
+        }
+        updateSidebarTheme();
         // Dashboard icon button
         document.getElementById('dashboardIconBtn').addEventListener('click', function(e) {
             e.preventDefault();
             window.location.href = 'dashboard.html';
         });
-        // On load, set theme from localStorage
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-            themeToggle.textContent = '☀️';
-        }
         // Search bar filter
         const searchBar = document.getElementById('searchBar');
         searchBar.addEventListener('input', function() {
@@ -102,16 +117,6 @@
                 btn.style.display = label && label.includes(query) ? '' : 'none';
             });
         });
-        // Sidebar dark mode sync
-        const sidebar = document.getElementById('sidebar');
-        function updateSidebarTheme() {
-            if(document.body.classList.contains('dark-mode')) {
-                sidebar.classList.add('dark-mode');
-            } else {
-                sidebar.classList.remove('dark-mode');
-            }
-        }
-        updateSidebarTheme();
         // Render custom subjects
         function renderCustomSubjects() {
             const container = document.getElementById('customSubjectsContainer');

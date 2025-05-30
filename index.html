@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>study</title>
-    <link rel="icon" href="E:\study\fox.png" type="image/png" sizes="16x16 62x62">
+    <link rel="icon" href="fox.png" type="image/png" sizes="16x16 62x62">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <nav class="sidebar" id="sidebar">
-        <a class="sidebar-link" href="study.html" title="Home">
+        <a class="sidebar-link" href="index.html" title="Home">
             <span>🏠</span>
             <span class="sidebar-label">Home</span>
         </a>
@@ -24,6 +24,10 @@
         <a class="sidebar-link" href="math.html" title="Math">
             <span>➗</span>
             <span class="sidebar-label">Math</span>
+        </a>
+        <a class="sidebar-link" href="dashboard.html" title="Dashboard">
+            <span>🛠️</span>
+            <span class="sidebar-label">Dashboard</span>
         </a>
     </nav>
     <header>
@@ -72,22 +76,27 @@
         }
         // Dark mode toggle
         const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        function setDarkMode(on) {
+            document.body.classList.toggle('dark-mode', on);
+            themeToggle.textContent = on ? '☀️' : '🌙';
+            localStorage.setItem('theme', on ? 'dark' : 'light');
             updateSidebarTheme();
+        }
+        themeToggle.onclick = () => setDarkMode(!document.body.classList.contains('dark-mode'));
+        // On load, set theme from localStorage
+        if (localStorage.getItem('theme') === 'dark') setDarkMode(true);
+        else setDarkMode(false);
+        // Listen for theme changes from other tabs
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'theme') {
+                setDarkMode(localStorage.getItem('theme') === 'dark');
+            }
         });
         // Dashboard icon button
         document.getElementById('dashboardIconBtn').addEventListener('click', function(e) {
             e.preventDefault();
             window.location.href = 'dashboard.html';
         });
-        // On load, set theme from localStorage
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-            themeToggle.textContent = '☀️';
-        }
         // Search bar filter
         const searchBar = document.getElementById('searchBar');
         searchBar.addEventListener('input', function() {
@@ -112,6 +121,7 @@
             }
         }
         updateSidebarTheme();
+        themeToggle.addEventListener('click', updateSidebarTheme);
         // Render custom subjects
         function renderCustomSubjects() {
             const container = document.getElementById('customSubjectsContainer');
@@ -129,23 +139,6 @@
                 btn.innerHTML = `<span class=\"subject-icon\">📚</span><p>${subject}</p>`;
                 container.appendChild(btn);
             });
-        }
-        function createSubjectPage(subject, page, autoOpen) {
-            // Template for new subject page (matches built-in subjects)
-            const template = `<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>${subject}</title>\n    <link rel=\"stylesheet\" href=\"styles.css\">\n    <link rel=\"icon\" href=\"fox.png\" type=\"image/png\">\n</head>\n<body>\n    <nav class=\"sidebar\" id=\"sidebar\">\n        <a class=\"sidebar-link\" href=\"study.html\" title=\"Home\"><span>🏠</span><span class=\"sidebar-label\">Home</span></a>\n    </nav>\n    <header>\n        <button class=\"theme-toggle\" id=\"themeToggle\" title=\"Toggle dark mode\">🌙</button>\n        <div><img src=\"fox.png\" alt=\"Logo\"></div>\n        <p>${subject}</p>\n    </header>\n    <main>\n        <h1 style=\"text-align:center;font-weight:600;color:var(--text-main);margin-bottom:32px;\">Welcome to ${subject}</h1>\n        <div class=\"button-container\">\n            <div class=\"big-button\"><span class=\"big-icon\">📚</span><span>${subject} Content Coming Soon!</span></div>\n        </div>\n    </main>\n    <footer>\n        <p>Yash Vinchhi</p>\n    </footer>\n    <script>\n        // Dark mode toggle\n        const themeToggle = document.getElementById('themeToggle');\n        themeToggle.addEventListener('click', () => {\n            document.body.classList.toggle('dark-mode');\n            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';\n            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');\n        });\n        if (localStorage.getItem('theme') === 'dark') {\n            document.body.classList.add('dark-mode');\n            themeToggle.textContent = '☀️';\n        }\n        // Sidebar dark mode sync\n        const sidebar = document.getElementById('sidebar');\n        function updateSidebarTheme() {\n            if(document.body.classList.contains('dark-mode')) {\n                sidebar.classList.add('dark-mode');\n            } else {\n                sidebar.classList.remove('dark-mode');\n            }\n        }\n        updateSidebarTheme();\n        document.getElementById('themeToggle').addEventListener('click', updateSidebarTheme);\n    <\/script>\n</body>\n</html>`;
-            // Download the file (since browser can't write to disk directly)
-            const blob = new Blob([template], {type: 'text/html'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = page;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            alert('Template for "' + subject + '" downloaded! Please open and place it in your project folder as ' + page + '.');
-            if (autoOpen) {
-                // After download, try to open the page (user must place it in folder)
-                setTimeout(() => { window.location.href = page; }, 1000);
-            }
         }
         renderCustomSubjects();
         window.addEventListener('storage', renderCustomSubjects);
