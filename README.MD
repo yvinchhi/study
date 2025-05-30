@@ -6,7 +6,7 @@ Welcome to the **Study App** — a vibrant, modern, and fully responsive web app
 
 ## ✨ Features
 
-- **Modern Apple-like UI**: Glassmorphism, gradients, and soft shadows for a premium feel.
+- **Modern UI**: Glassmorphism, gradients, and soft shadows for a premium feel.
 - **Dark Mode**: Toggle between light and dark themes with a single click.
 - **Responsive Design**: Looks perfect on desktop, tablet, and mobile.
 - **Quick Access Sidebar**: Effortless navigation between subjects and dashboard.
