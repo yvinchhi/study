@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>study</title>
+    <link rel="icon" href="E:\study\fox.png" type="image/png" sizes="16x16 62x62">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <a class="sidebar-link" href="study.html" title="Home">
+            <span>🏠</span>
+            <span class="sidebar-label">Home</span>
+        </a>
+        <a class="sidebar-link" href="physics.html" title="Physics">
+            <span>🧲</span>
+            <span class="sidebar-label">Physics</span>
+        </a>
+        <a class="sidebar-link" href="chemistry.html" title="Chemistry">
+            <span>⚗️</span>
+            <span class="sidebar-label">Chemistry</span>
+        </a>
+        <a class="sidebar-link" href="math.html" title="Math">
+            <span>➗</span>
+            <span class="sidebar-label">Math</span>
+        </a>
+    </nav>
+    <header>
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
+        <button class="theme-toggle" id="dashboardIconBtn" title="Dashboard" style="top: 76px;">
+            🛠️
+        </button>
+        <div>
+            <img src="fox.png" alt="Logo">
+        </div>
+        <p>Welcome to the new way of studying</p>
+        <input type="text" id="searchBar" class="search-bar" placeholder="Search subjects..." autocomplete="off">
+    </header>
+    <main id="mainSubjects">
+        <div class="subject-button" data-label="physics" onclick="navigate('physics')">
+            <span class="subject-icon">🧲</span>
+            <p>Physics</p>
+        </div>
+        <div class="subject-button" data-label="chemistry" onclick="navigate('chemistry')">
+            <span class="subject-icon">⚗️</span>
+            <p>Chemistry</p>
+        </div>
+        <div class="subject-button" data-label="math" onclick="navigate('math')">
+            <span class="subject-icon">➗</span>
+            <p>Math</p>
+        </div>
+        <div id="customSubjectsContainer"></div>
+    </main>
+    <footer>
+        <p>Yash Vinchhi</p>
+        <div class="social">
+            <a href="https://www.instagram.com/yeaas_vinchhi/" target="_blank">
+                <img src="instagram.svg" alt="Instagram">
+            </a>
+            <a href="https://www.linkedin.com/in/yash-h-vinchhi-25176b297/" target="_blank">
+                <img src="linkedin.svg" alt="linkedin">
+            </a>
+            <a href="https://twitter.com/yashhvinchhi" target="_blank">
+                <img src="twitter.svg" alt="twitter">
+            </a>
+        </div>
+    </footer>
+    <script>
+        function navigate(subject) {
+            window.location.href = subject + '.html';
+        }
+        // Dark mode toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            updateSidebarTheme();
+        });
+        // Dashboard icon button
+        document.getElementById('dashboardIconBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'dashboard.html';
+        });
+        // On load, set theme from localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggle.textContent = '☀️';
+        }
+        // Search bar filter
+        const searchBar = document.getElementById('searchBar');
+        searchBar.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            document.querySelectorAll('.subject-button').forEach(btn => {
+                const label = btn.getAttribute('data-label');
+                btn.style.display = label && label.includes(query) ? '' : 'none';
+            });
+            // Also filter custom subjects
+            document.querySelectorAll('.custom-subject-button').forEach(btn => {
+                const label = btn.getAttribute('data-label');
+                btn.style.display = label && label.includes(query) ? '' : 'none';
+            });
+        });
+        // Sidebar dark mode sync
+        const sidebar = document.getElementById('sidebar');
+        function updateSidebarTheme() {
+            if(document.body.classList.contains('dark-mode')) {
+                sidebar.classList.add('dark-mode');
+            } else {
+                sidebar.classList.remove('dark-mode');
+            }
+        }
+        updateSidebarTheme();
+        // Render custom subjects
+        function renderCustomSubjects() {
+            const container = document.getElementById('customSubjectsContainer');
+            container.innerHTML = '';
+            const subjects = JSON.parse(localStorage.getItem('customSubjects') || '[]');
+            subjects.forEach(subject => {
+                const btn = document.createElement('div');
+                btn.className = 'subject-button custom-subject-button';
+                btn.setAttribute('data-label', subject.toLowerCase());
+                btn.onclick = function() {
+                    // Always open the dynamic subject page
+                    const page = `subject.html?name=${encodeURIComponent(subject)}`;
+                    window.location.href = page;
+                };
+                btn.innerHTML = `<span class=\"subject-icon\">📚</span><p>${subject}</p>`;
+                container.appendChild(btn);
+            });
+        }
+        function createSubjectPage(subject, page, autoOpen) {
+            // Template for new subject page (matches built-in subjects)
+            const template = `<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>${subject}</title>\n    <link rel=\"stylesheet\" href=\"styles.css\">\n    <link rel=\"icon\" href=\"fox.png\" type=\"image/png\">\n</head>\n<body>\n    <nav class=\"sidebar\" id=\"sidebar\">\n        <a class=\"sidebar-link\" href=\"study.html\" title=\"Home\"><span>🏠</span><span class=\"sidebar-label\">Home</span></a>\n    </nav>\n    <header>\n        <button class=\"theme-toggle\" id=\"themeToggle\" title=\"Toggle dark mode\">🌙</button>\n        <div><img src=\"fox.png\" alt=\"Logo\"></div>\n        <p>${subject}</p>\n    </header>\n    <main>\n        <h1 style=\"text-align:center;font-weight:600;color:var(--text-main);margin-bottom:32px;\">Welcome to ${subject}</h1>\n        <div class=\"button-container\">\n            <div class=\"big-button\"><span class=\"big-icon\">📚</span><span>${subject} Content Coming Soon!</span></div>\n        </div>\n    </main>\n    <footer>\n        <p>Yash Vinchhi</p>\n    </footer>\n    <script>\n        // Dark mode toggle\n        const themeToggle = document.getElementById('themeToggle');\n        themeToggle.addEventListener('click', () => {\n            document.body.classList.toggle('dark-mode');\n            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';\n            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');\n        });\n        if (localStorage.getItem('theme') === 'dark') {\n            document.body.classList.add('dark-mode');\n            themeToggle.textContent = '☀️';\n        }\n        // Sidebar dark mode sync\n        const sidebar = document.getElementById('sidebar');\n        function updateSidebarTheme() {\n            if(document.body.classList.contains('dark-mode')) {\n                sidebar.classList.add('dark-mode');\n            } else {\n                sidebar.classList.remove('dark-mode');\n            }\n        }\n        updateSidebarTheme();\n        document.getElementById('themeToggle').addEventListener('click', updateSidebarTheme);\n    <\/script>\n</body>\n</html>`;
+            // Download the file (since browser can't write to disk directly)
+            const blob = new Blob([template], {type: 'text/html'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = page;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            alert('Template for "' + subject + '" downloaded! Please open and place it in your project folder as ' + page + '.');
+            if (autoOpen) {
+                // After download, try to open the page (user must place it in folder)
+                setTimeout(() => { window.location.href = page; }, 1000);
+            }
+        }
+        renderCustomSubjects();
+        window.addEventListener('storage', renderCustomSubjects);
+    </script>
+</body>
+</html>
